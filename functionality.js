@@ -5,6 +5,9 @@ const row3 = [document.getElementById('3,1'), document.getElementById('3,2'), do
 const grid = [row1, row2, row3];
 let timeOnScreen = 1000;
 let timeBetween = 2000;
+let numberOfRuns = 0;
+let numberOfFlashes = 10;
+let numberOfSets = 10;
 
 function generateRandomNumber(digitNum) {
     let max = Math.pow(10, digitNum);
@@ -25,10 +28,6 @@ function severalRandomNumbers(number) {
     }}, timeOnScreen);
 }
 
-// for (let x = 0; x < 10; x++) {   
-//     setTimeout(() => {generateRandomNumber(1)}, x*timeBetween);
-// };
-
 function moreThanOne(boolean, num) {
     if (boolean === true) {
         severalRandomNumbers(num)
@@ -36,15 +35,18 @@ function moreThanOne(boolean, num) {
         generateRandomNumber(num);
     }
 }
+function redirect() {
+    if (numberOfRuns < numberOfSets) {
+        window.location.href = './answer.html';
+    } else {
+        window.location.href = './index/html';
+    }
+}
 for (let x = 0; x < 10; x++) {   
     setTimeout(() => {moreThanOne(false, 1)}, x*timeBetween);
 };
-const para = document.createElement("a");
-para.classList.add('btn');
-para.classList.add('btn-primary');
-const node = document.createTextNode("This is new.");
-para.appendChild(node);
+numberOfRuns++;
+let totalTime = numberOfFlashes*timeBetween + timeBetween;
+setTimeout(() => {redirect()}, totalTime);
 
-const element = document.getElementById("2,6");
-element.appendChild(para);
 
