@@ -6,6 +6,9 @@ let distribution;
 let setNum;
 let settings = {};
 let queryString;
+let timeBetween;
+let randomness;
+
 function handleClick() {
     flashTime = document.getElementById('flashTime').value;
     console.log(flashTime);
@@ -15,12 +18,15 @@ function handleClick() {
     console.log(setFlash);
     setNum = document.getElementById('setNum').value;
     console.log(setNum);
-    settings = {
-        flashTime: flashTime,
-        numberOfDigits: numberOfDigits,
-        setFlash: setFlash,
-        setNum: setNum
-    };
+    timeBetween = document.getElementById('timeBetween').value;
+    console.log(timeBetween);
+    randomness = document.getElementById('randomness').value;
+    console.log(randomness);
+    fetch('https://memory-backend.herokuapp.com/settings?' + 'flashTime=' + flashTime + '&' + 'numberOfDigits=' + numberOfDigits + '&' + 'setFlash=' + setFlash + '&' + 'setNum=' + setNum + '&' + 'timeBetween=' + timeBetween + '&' + 'randomness=' + randomness, {
+        method: 'POST',
+      }).catch(err => {
+        console.log('Nooooo!');
+      })
     if (flashTime === '' || numberOfDigits === '' || setFlash === '' || setNum === '') {
         alert('You have to fill in all fields');
     } else {

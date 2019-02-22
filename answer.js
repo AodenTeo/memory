@@ -1,35 +1,86 @@
-let correctAnswer = '12345';
 let correctness = document.getElementById('correctness')
-let numberOfRuns = 2; //Here we should retrieve the number of runs from the server.
+let numberOfRuns;
+
 let numberOfSets = 3;
+let correctAnswer;
+fetch('https://memory-backend.herokuapp.com/score', {
+    method: 'GET'
+}).then(response => {
+    return response.json();
+}).then(JSONresponse => {
+    correctAnswer = JSONresponse.answer;
+    console.log(JSONresponse);
+}).then(response => {
+    function handleClick() {
+        let userAnswer = document.getElementById('answer').value;
 
-function handleClick() {
-    let userAnswer = document.getElementById('answer').value;
+        if (userAnswer === correctAnswer) {
+            correctness.innerHTML = 'Correct!';
+            correctness.style.color = 'green';
+            fetch('https://memory-backend.herokuapp.com/result/1', {
+                method: 'POST',
+            }).then(response => {
+                return response.json();
+            }).then(JSONresponse => {
+                console.log(JSONresponse);
+            }).catch(err => {
+                console.log('Nooooo!');
+            })
 
-    if (userAnswer === correctAnswer) {
-        correctness.innerHTML = 'Correct!';
-        correctness.style.color = 'green';
-    } else {
-        correctness.innerHTML = `Incorrect. The correct answer was ${correctAnswer}`;
-        correctness.style.color = 'red';
-    }
-    numberOfRuns++ //Here, we should send the increased number of runs to the server.
-}
-
-function redirect() {
-    if ( document.getElementById('correctness').innerHTML ==='Correct!' || document.getElementById('correctness').innerHTML === `Incorrect. The correct answer was ${correctAnswer}`) {
-        if (numberOfRuns < numberOfSets) {
-            window.location.href = './functionality.html';
         } else {
-            window.location.href = './score.html';
+            correctness.innerHTML = `Incorrect. The correct answer was ${correctAnswer}`;
+            correctness.style.color = 'red';
+            fetch('https://memory-backend.herokuapp.com/result/0', {
+                method: 'POST',
+            }).then(response => {
+                return response.json();
+            }).then(JSONresponse => {
+                console.log(JSONresponse);
+            }).catch(err => {
+                console.log('Nooooo!');
+            })
         }
-        
-    } else {
-        alert('Please submit an answer');
-    }
-}
+        fetch('https://memory-backend.herokuapp.com/runs/1', {
+            method: 'POST',
+        }).then(response => {
+            return response.json();
+        }).then(JSONresponse => {
+            console.log(JSONresponse);
+            return JSONresponse;
+        }).catch(err => {
+            console.log('Nooooo!');
+        })
 
-document.getElementById('submit').addEventListener('click', handleClick);
-document.getElementById('next').addEventListener('click', redirect);
+    }
+
+    function redirect() {
+        fetch('https://memory-backend.herokuapp.com/runs', {
+            method: 'GET'
+        }).then(response => {
+            return response.json();
+        }).then(JSONresponse => {
+            numberOfRuns = JSONresponse.runs;
+            numberOfSets = JSONresponse.numberOfSets;
+            console.log(JSONresponse);
+        }).then(finalResponse => {
+            if (document.getElementById('correctness').innerHTML === 'Correct!' || document.getElementById('correctness').innerHTML === `Incorrect. The correct answer was ${correctAnswer}`) {
+                if (numberOfRuns < numberOfSets) {
+                    window.location.href = './functionality.html';
+                } else {
+                    window.location.href = './score.html';
+                }
+    
+            } else {
+                alert('Please submit an answer');
+            }
+        })
+        
+    }
+
+    document.getElementById('submit').addEventListener('click', handleClick);
+    document.getElementById('next').addEventListener('click', redirect);
+
+})
+
 
 
