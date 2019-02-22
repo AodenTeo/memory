@@ -50,7 +50,7 @@ fetch('https://memory-backend.herokuapp.com/score', {
         }).catch(err => {
             console.log('Nooooo!');
         })
-        document.getElementById('submit').createAttribute('disabled');
+        document.getElementById('submit').setAttribute('disabled', 'boolean');
 
     }
 
