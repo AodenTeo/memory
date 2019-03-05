@@ -29,89 +29,61 @@ fetch('https://memory-backend.herokuapp.com/information', {
     randomness = JSONresponse.randomness;
     console.log(randomness);
 }).then(finalResponse => {
-    fetch('https://memory-backend.herokuapp.com/settings?' + 'flashTime=' + 0 + '&' + 'numberOfDigits=' + 0 + '&' + 'setFlash=' + 0 + '&' + 'setNum=' + 0 + '&' + 'timeBetween=' + 0 + '&' + 'randomness=' + 0, {
-        method: 'POST',
-      }).then(uselessResponse => {
-        fetch('https://memory-backend.herokuapp.com/information', {
-            method: 'GET'
-        }).then(response => {
-            return response.json();
-        }).then(JSONresponse => {
-            timeOnScreen = (JSONresponse.flashTime) * 1000;
-            console.log(timeOnScreen);
-            numberOfFlashes = JSONresponse.setFlashes;
-            console.log(numberOfFlashes);
-            numberOfSets = JSONresponse.setNum;
-            console.log(numberOfSets);
-            numberOfDigits = JSONresponse.numberOfDigits;
-            console.log(numberOfDigits);
-            timeBetween = (JSONresponse.timeBetween) * 1000;
-            console.log(timeBetween);
-            randomness = JSONresponse.randomness;
-            console.log(randomness);
-        }).then(finalResponse => {
-            function generateRandomNumber(digitNum) {
         
-                let max = Math.pow(10, digitNum);
-                let number = Math.floor(Math.random() * max);
-                url += number;
-                console.log(url);
-                let index1 = Math.floor(Math.random() * 3);
-                console.log(index1);
-                let index2 = Math.floor(Math.random() * row1.length);
-                grid[index1][index2].innerHTML = number;
-                setTimeout(() => { grid[index1][index2].innerHTML = '&nbsp' }, timeOnScreen);
-            };
-            function severalRandomNumbers(number) {
-                for (let x = 0; x < number; x++) {
-                    let number = Math.floor(Math.random() * 10);
-                    url += number;
-                    grid[1][x + 2].innerHTML = number;
-                }
+    function generateRandomNumber(digitNum) {
         
-                setTimeout(() => {
-                    for (let x = 0; x < number; x++) {
-                        grid[1][x + 2].innerHTML = '&nbsp';
-                    }
-                }, timeOnScreen);
-            }
-        
-            function moreThanOne(boolean, num) {
-                if (boolean === 'inline') {
-                    severalRandomNumbers(num)
-                } else {
-                    generateRandomNumber(num);
-                }
-            }
-            function redirect() {
-                window.location.href = './answer.html';
-                console.log('redirect() was called!')
-            }
-            for (let x = 0; x < numberOfFlashes; x++) {
-                setTimeout(() => { moreThanOne(randomness, numberOfDigits) }, x * (timeBetween + timeOnScreen));
-            }
-            let totalTime = numberOfFlashes * (timeBetween + timeOnScreen);
-            setTimeout(() => {
-                console.log(url);
-                fetch(url, {
-                    method: 'POST',
-                }).then(response => {
-                    console.log(response)
-                }).catch(err => {
-                    console.log('Nooooo!');
-                })
-            }, totalTime);
-        
-        
-            setTimeout(() => { redirect() }, totalTime + 1000);
-        
+        let max = Math.pow(10, digitNum);
+        let number = Math.floor(Math.random() * max);
+        url += number;
+        console.log(url);
+        let index1 = Math.floor(Math.random() * 3);
+        console.log(index1);
+        let index2 = Math.floor(Math.random() * row1.length);
+        grid[index1][index2].innerHTML = number;
+        setTimeout(() => { grid[index1][index2].innerHTML = '&nbsp' }, timeOnScreen);
+    };
+    function severalRandomNumbers(number) {
+        for (let x = 0; x < number; x++) {
+            let number = Math.floor(Math.random() * 10);
+            url += number;
+            grid[1][x + 2].innerHTML = number;
         }
-        ).catch(err => {
-            console.log('Oh no!');
-        })
-      })
 
-    
+        setTimeout(() => {
+            for (let x = 0; x < number; x++) {
+                grid[1][x + 2].innerHTML = '&nbsp';
+            }
+        }, timeOnScreen);
+    }
+
+    function moreThanOne(boolean, num) {
+        if (boolean === 'inline') {
+            severalRandomNumbers(num)
+        } else {
+            generateRandomNumber(num);
+        }
+    }
+    function redirect() {
+        window.location.href = './answer.html';
+        console.log('redirect() was called!')
+    }
+    for (let x = 0; x < numberOfFlashes; x++) {
+        setTimeout(() => { moreThanOne(randomness, numberOfDigits) }, x * (timeBetween + timeOnScreen));
+    }
+    let totalTime = numberOfFlashes * (timeBetween + timeOnScreen);
+    setTimeout(() => {
+        console.log(url);
+        fetch(url, {
+            method: 'POST',
+        }).then(response => {
+            console.log(response)
+        }).catch(err => {
+            console.log('Nooooo!');
+        })
+    }, totalTime);
+
+
+    setTimeout(() => { redirect() }, totalTime + 1000);
 
 }
 ).catch(err => {

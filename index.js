@@ -24,14 +24,16 @@ function handleClick() {
     console.log(randomness);
     fetch('https://memory-backend.herokuapp.com/settings?' + 'flashTime=' + flashTime + '&' + 'numberOfDigits=' + numberOfDigits + '&' + 'setFlash=' + setFlash + '&' + 'setNum=' + setNum + '&' + 'timeBetween=' + timeBetween + '&' + 'randomness=' + randomness, {
         method: 'POST',
+      }).then(obligatoryResponse => {
+        if (flashTime === '' || numberOfDigits === '' || setFlash === '' || setNum === '') {
+          alert('You have to fill in all fields');
+      } else {
+          window.location.href = "./functionality.html";
+      }
       }).catch(err => {
         console.log('Nooooo!');
       })
-    if (flashTime === '' || numberOfDigits === '' || setFlash === '' || setNum === '') {
-        alert('You have to fill in all fields');
-    } else {
-        window.location.href = "./functionality.html";
-    }
+    
 }
 submit.addEventListener('click', handleClick);
 console.log(settings);
