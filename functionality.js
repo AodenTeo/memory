@@ -29,6 +29,24 @@ fetch('https://memory-backend.herokuapp.com/information', {
     randomness = JSONresponse.randomness;
     console.log(randomness);
 }).then(finalResponse => {
+    fetch('https://memory-backend.herokuapp.com/information', {
+    method: 'GET'
+}).then(response => {
+    return response.json();
+}).then(JSONresponse => {
+    timeOnScreen = (JSONresponse.flashTime) * 1000;
+    console.log(timeOnScreen);
+    numberOfFlashes = JSONresponse.setFlashes;
+    console.log(numberOfFlashes);
+    numberOfSets = JSONresponse.setNum;
+    console.log(numberOfSets);
+    numberOfDigits = JSONresponse.numberOfDigits;
+    console.log(numberOfDigits);
+    timeBetween = (JSONresponse.timeBetween) * 1000;
+    console.log(timeBetween);
+    randomness = JSONresponse.randomness;
+    console.log(randomness);
+}).then(finalResponse => {
     function generateRandomNumber(digitNum) {
 
         let max = Math.pow(10, digitNum);
@@ -87,6 +105,9 @@ fetch('https://memory-backend.herokuapp.com/information', {
 }
 ).catch(err => {
     console.log('Oh no!');
+})
+}).catch(err => {
+    console.log('Nooo!');
 })
 
 
