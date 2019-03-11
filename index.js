@@ -8,6 +8,22 @@ let settings = {};
 let queryString;
 let timeBetween;
 let randomness;
+let today = new Date();
+let dd = today.getDate();
+let mm = today.getMonth() + 1; //January is 0!
+let yyyy = today.getFullYear();
+
+if (dd < 10) {
+  dd = '0' + dd;
+}
+
+if (mm < 10) {
+  mm = '0' + mm;
+}
+
+today = dd + '/' + mm + '/' + yyyy;
+const dateArea = document.getElementById("date");
+dateArea.innerHTML = today;
 
 function handleClick() {
     flashTime = document.getElementById('flashTime').value;
@@ -33,7 +49,7 @@ function handleClick() {
       }).catch(err => {
         console.log('Nooooo!');
       })
-    
+
 }
 submit.addEventListener('click', handleClick);
 console.log(settings);

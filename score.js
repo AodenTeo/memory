@@ -1,5 +1,6 @@
 let yourScore = document.getElementById('score');
 let message = document.getElementById('text');
+let dateArea = document.getElementById('date');
 let scored, total, sets;
 fetch('https://memory-backend.herokuapp.com/final', {
     method: 'GET'
@@ -27,6 +28,19 @@ fetch('https://memory-backend.herokuapp.com/final', {
     } else {
         message.innerHTML = `Good attempt! Maybe you should try easier settings.`;
     }
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1; //January is 0!
+    let yyyy = today.getFullYear();
+
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+
+    today = dd + '/' + mm + '/' + yyyy;
+    dateArea.innerHTML = today;
 })
-
-
