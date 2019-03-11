@@ -9,7 +9,6 @@ fetch('https://memory-backend.herokuapp.com/score', {
     return response.json();
 }).then(JSONresponse => {
     correctAnswer = JSONresponse.answer;
-    console.log(JSONresponse);
 }).then(response => {
     function handleClick() {
         let userAnswer = document.getElementById('answer').value;
@@ -70,18 +69,15 @@ fetch('https://memory-backend.herokuapp.com/score', {
                 } else {
                     window.location.href = './score.html';
                 }
-    
+
             } else {
                 alert('Please submit an answer');
             }
         })
-        
+
     }
 
     document.getElementById('submit').addEventListener('click', handleClick);
     document.getElementById('next').addEventListener('click', redirect);
 
 })
-
-
-
